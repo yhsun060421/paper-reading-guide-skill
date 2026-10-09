@@ -1,0 +1,104 @@
+% ============================================================
+% 论文带读 PDF 统一主题模板（XeLaTeX + ctexart）
+% 使用：\input{preamble}
+% 注意：不要用 \accent 作命令名（与 LaTeX 内置冲突），用 \highlight。
+% ============================================================
+\documentclass[11pt,a4paper]{ctexart}
+
+\usepackage[a4paper,margin=19mm,headheight=23pt,headsep=7mm,footskip=10mm]{geometry}
+\usepackage{fontspec}
+\setmainfont{Times New Roman}
+\setsansfont{Microsoft YaHei}
+\setmonofont{Consolas}[Scale=0.84]
+\usepackage{amsmath,amssymb}
+\usepackage{graphicx}
+\usepackage{booktabs,tabularx,array,multirow}
+\usepackage{caption,subcaption}
+\usepackage{longtable}
+\usepackage{makecell}
+\usepackage{enumitem}
+\usepackage{float}
+\usepackage{listings}
+\usepackage{tcolorbox}
+\tcbuselibrary{skins,breakable}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,positioning,shapes.geometric,fit,backgrounds}
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{titlesec}
+\usepackage{setspace}
+\usepackage{ragged2e}
+\usepackage{pifont}
+
+\definecolor{DeepTeal}{HTML}{0E5A67}
+\definecolor{MidTeal}{HTML}{3E8C88}
+\definecolor{WarmOrange}{HTML}{D17A35}
+\definecolor{Ink}{HTML}{1D2B30}
+\definecolor{PaleBlue}{HTML}{F3F7F8}
+\definecolor{PaleTeal}{HTML}{E7F2F1}
+\definecolor{CodeBg}{HTML}{F5F7F7}
+\definecolor{CodeRule}{HTML}{C6D5D6}
+
+% 建议在正文 \input{preamble} 之后用 \hypersetup 覆盖标题
+\hypersetup{colorlinks=true,linkcolor=DeepTeal,urlcolor=DeepTeal,citecolor=DeepTeal,
+  pdftitle={论文带读},pdfauthor={论文带读}}
+\captionsetup{font=small,labelfont={bf,color=DeepTeal},textfont={color=Ink},skip=5pt}
+\setlength{\parindent}{2em}
+\setlength{\parskip}{0.28em}
+\linespread{1.12}
+
+\titleformat{\section}{\Large\bfseries\color{DeepTeal}}{}{0pt}{}
+\titlespacing*{\section}{0pt}{0pt}{6pt}
+\titleformat{\subsection}{\large\bfseries\color{DeepTeal}}{}{0pt}{}
+\titlespacing*{\subsection}{0pt}{5pt}{3pt}
+
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{\small\color{DeepTeal}\textbf{文献阅读汇报}\quad <论文主题>}
+\rhead{\small\color{gray}<作者>, <年>}
+\cfoot{\small\color{gray}\thepage\,/\,\pageref{LastPage}}
+\renewcommand{\headrulewidth}{0.5pt}
+\renewcommand{\headrule}{\hbox to\headwidth{\color{DeepTeal}\leaders\hrule height \headrulewidth\hfill}}
+
+% ---------- 版式组件 ----------
+\newcommand{\key}[1]{\textcolor{DeepTeal}{\textbf{#1}}}
+\newcommand{\highlight}[1]{\textcolor{WarmOrange}{\textbf{#1}}}
+\newcommand{\source}[1]{\par\vspace{1pt}\raggedright\scriptsize\color{gray}\textit{来源：#1}\par}
+\newcommand{\sectiontag}[1]{\noindent\colorbox{PaleTeal}{\parbox{\dimexpr\linewidth-2\fboxsep\relax}{\small\color{DeepTeal}\textbf{#1}}}\par\vspace{5pt}}
+
+% 本节路线（浅青绿框）
+\newcommand{\roadmap}[1]{\begin{tcolorbox}[colback=PaleTeal,colframe=MidTeal,boxrule=.5pt,arc=1.5mm,left=2.2mm,right=2.2mm,top=1.4mm,bottom=1.4mm]\small\textbf{本节路线：}\quad #1\end{tcolorbox}}
+% 大白话（浅蓝框）
+\newcommand{\plain}[1]{\begin{tcolorbox}[colback=PaleBlue,colframe=DeepTeal,boxrule=.5pt,arc=1.5mm,left=2.2mm,right=2.2mm,top=1.5mm,bottom=1.5mm]\small\textbf{大白话}\quad #1\end{tcolorbox}}
+% 专业定义 + 本文中的位置（白底青绿框）
+\newcommand{\definition}[2]{\begin{tcolorbox}[colback=white,colframe=MidTeal,boxrule=.45pt,arc=1.5mm,left=2.2mm,right=2.2mm,top=1.4mm,bottom=1.4mm]\small\textbf{专业定义：}#1\par\vspace{1mm}\textbf{本文中的位置：}#2\end{tcolorbox}}
+% 不要这样理解（暖橙框）
+\newcommand{\warning}[1]{\begin{tcolorbox}[colback=WarmOrange!10,colframe=WarmOrange,boxrule=.5pt,arc=1.5mm,left=2.2mm,right=2.2mm,top=1.4mm,bottom=1.4mm]\small\textbf{不要这样理解：}\quad #1\end{tcolorbox}}
+% 阅读要点（青绿框）
+\newcommand{\takeaway}[1]{\begin{tcolorbox}[colback=PaleTeal,colframe=MidTeal,boxrule=.55pt,arc=1.5mm,left=2.2mm,right=2.2mm,top=1.5mm,bottom=1.5mm]\small\textbf{阅读要点}\quad #1\end{tcolorbox}}
+% 注意（白底暖橙框）
+\newcommand{\noteBox}[1]{\begin{tcolorbox}[colback=white,colframe=WarmOrange,boxrule=.55pt,arc=1.5mm,left=2.2mm,right=2.2mm,top=1.3mm,bottom=1.3mm]\small #1\end{tcolorbox}}
+% 论文图（紧跟图注）
+\newcommand{\paperfig}[3]{\begin{figure}[H]\centering\includegraphics[width=#2\linewidth]{#1}\caption{#3}\end{figure}}
+% 代码文件标注
+\newcommand{\codefile}[2]{\noindent\scriptsize\color{gray}\texttt{#1}\quad\textit{#2}\par\vspace{2pt}}
+
+% ---------- 代码样式 ----------
+\lstdefinestyle{pythonstyle}{language=Python,basicstyle=\ttfamily\scriptsize\color{Ink},
+  keywordstyle=\color{DeepTeal}\bfseries,commentstyle=\color{gray}\itshape,
+  stringstyle=\color{WarmOrange},backgroundcolor=\color{CodeBg},frame=single,
+  rulecolor=\color{CodeRule},framerule=.35pt,breaklines=true,showstringspaces=false,
+  columns=fullflexible,aboveskip=3pt,belowskip=3pt,xleftmargin=1pt,xrightmargin=1pt}
+
+% ---------- 表格列类型 ----------
+\newcolumntype{Y}{>{\RaggedRight\arraybackslash}X}
+\newcolumntype{C}{>{\Centering\arraybackslash}X}
+
+% ---------- 安全表格（避免 p{}+Y 混用溢出；见 SKILL.md 陷阱 6） ----------
+% 用法：
+%   \begin{center}\small
+%   \begin{tabular}{@{}p{0.26\linewidth}@{\hspace{4mm}}p{0.62\linewidth}@{}}
+%   ...\end{tabular}
+%   \end{center}
